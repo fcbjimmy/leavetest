@@ -6,7 +6,7 @@ import { schema } from "../models/adduser";
 const department = ["IT", "Human Resources", "Business"];
 const role = ["User", "HR", "Admin", "Supervisor"];
 const rightofuse = [
-  "User Management,",
+  "User Management",
   "Leave Type Management",
   "Leave Approval",
   "Leave History",
@@ -21,9 +21,10 @@ const AddUserModal = ({ handleClose }) => {
   } = useForm({
     resolver: yupResolver(schema),
   });
-
+  console.log(errors);
   const onSubmitHandler = (data) => {
     console.log(data);
+    console.log("hello");
     // const {
     //   address,
     //   description,
@@ -127,10 +128,9 @@ const AddUserModal = ({ handleClose }) => {
                   >
                     <span className="mr-2">{role}</span>
                     <input
-                      {...register("role")}
+                      {...register("role", { required: true })}
                       type="radio"
                       className="mr-2"
-                      name="accountType"
                       value={role}
                       id={role}
                     />
@@ -141,12 +141,17 @@ const AddUserModal = ({ handleClose }) => {
           </li>
           <li className="form-li-create">
             <span>Features</span>
+            <p className="form-error">{errors.features?.message}</p>
             <div className="mt-2 grid grid-cols-2">
               {rightofuse.map((feature, index) => {
                 return (
                   <div key={index}>
                     <label className="inline-flex items-center">
-                      <input type="checkbox" {...register("features")} />
+                      <input
+                        type="checkbox"
+                        {...register("features")}
+                        value={feature}
+                      />
                       <span className="text-sm ml-2">{feature}</span>
                     </label>
                   </div>

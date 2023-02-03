@@ -20,20 +20,19 @@ export const schema = yup.object().shape({
     .max(32)
     .matches(capital, "Limit to two words with first letter capitalized")
     .required(),
-  department: yup.string().default(""),
+  department: yup.string(),
   user_group: yup.string().required(),
   role: yup.string().required("Role is required!").nullable(),
-  features: yup.string(),
-  email: yup.string().email("Please enter a valid email!").default(""),
+  features: yup.array(),
+  email: yup.string().email("Please enter a valid email!"),
   phone: yup
     .string()
     .min(8, "min 8 digits")
     .typeError("Amount must be a number and min 8 digits")
     .default(""),
-  supervisor: yup.string().default(""),
+  supervisor: yup.string(),
   annual_balance: yup.number(),
   annual_prebalance: yup.number(),
   sickLeave_balance: yup.number(),
   sickLeave_prebalance: yup.number(),
-  email_notification: yup.boolean().default(""),
 });
