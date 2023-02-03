@@ -1,13 +1,46 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap"); */
+/* @import url("https://fonts.googleapis.com/css2?family=Merriweather&display=swap"); */
+@import url("https://fonts.googleapis.com/css2?family=Mulish&display=swap");
+
+@layer base {
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body {
+  @apply bg-gray-100;
+}
+/* body {
+  @apply bg-slate-400;
+}
+
+.icon-text {
+  @apply flex gap-2 items-center my-2;
+}
+*/
+
+.button-pagination {
+  @apply hover:text-blue-400 active:translate-y-0.5 transition duration-150 disabled:hover:text-gray-500 disabled:opacity-25 disabled:translate-y-0;
+}
+
+.button-click {
+  @apply text-white bg-blue-500 active:translate-y-0.5 py-1 px-2 rounded transition duration-150;
+}
+
+.form-error {
+  @apply text-sm text-red-400;
+}
+
+.form-li-create {
+  @apply flex flex-col px-4 py-2;
+}
+
+.form-li-create-input {
+  @apply border rounded max-w-sm p-2;
+}
+
+.menu-li {
+  @apply border-b-2 border-b-emerald-200 py-1 text-center hover:scale-110 duration-100 hover:border-none;
 }
