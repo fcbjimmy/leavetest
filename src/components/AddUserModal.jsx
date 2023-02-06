@@ -5,7 +5,8 @@ import { schema } from "../models/adduser";
 import { useGlobalContext } from "../context/context";
 import axios from "axios";
 import { adduser } from "../utils/url";
-import { useQuery, useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
+import { addUser } from "../api/userManagementApi";
 
 const department = ["IT", "Human Resources", "Business"];
 const role = ["User", "HR", "Admin", "Supervisor"];
@@ -31,19 +32,26 @@ const AddUserModal = ({ handleClose }) => {
     formState: { errors },
     handleSubmit,
     reset,
-    watch,
   } = useForm({
     resolver: yupResolver(schema),
   });
 
-  const addNewUser = async (formdata) => {
-    try {
-      const { data } = await axios.post(adduser, formdata);
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const queryClient = useQueryClient();
+
+  // const addNewUser = async (formdata) => {
+  //   try {
+  //     const { data } = await axios.post(adduser, formdata);
+  //     console.log(data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  const addUserMutation = useMutation(addUser, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("users");
+    },
+  });
 
   const onSubmitHandler = (data) => {
     const {
@@ -68,6 +76,7 @@ const AddUserModal = ({ handleClose }) => {
     );
 
     const supervisorId = filteredSupervisor[0].UserId;
+    console.log(features);
 
     const formData = {
       userId,
@@ -76,7 +85,7 @@ const AddUserModal = ({ handleClose }) => {
       department,
       role,
       user_group: user_group.toString(),
-      features: features === [] ? null : features.toString(),
+      features: features === null ? features : features.toString(),
       email,
       phone,
       supervisor,
@@ -91,7 +100,8 @@ const AddUserModal = ({ handleClose }) => {
     };
     console.log("------------------------final------------------------");
     console.log(formData);
-    addNewUser(formData);
+    addUserMutation.mutate({ ...formData });
+    // addNewUser(formData);
     reset();
     handleClose();
   };

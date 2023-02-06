@@ -1,6 +1,6 @@
 import React from "react";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import { allUsers } from "../api/userManagement";
+import { allUsers } from "../api/userManagementApi";
 
 export const TestTable = () => {
   const {

@@ -19,8 +19,8 @@ const allUsers = async () => {
 //   return response.data;
 // };
 
-const addUser = async (user) => {
-  const { data } = await hrApi.post("/adduser", user);
+const addUser = async (formdata) => {
+  const { data } = await hrApi.post("/adduser", formdata);
   return data;
 };
 

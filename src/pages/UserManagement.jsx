@@ -12,7 +12,7 @@ import {
 import { PencilSquareIcon } from "@heroicons/react/24/solid";
 import { GlobalFilter, AddUserModal, ModalWrapper } from "../components";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import { allUsers } from "../api/userManagement";
+import { allUsers } from "../api/userManagementApi";
 
 function UserManagement() {
   const [tableData, setTableData] = useState([]);
