@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useContext, useState, useEffect, createContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { showUser } from "../utils/url";
 
 const AppContext = createContext();
 
@@ -44,7 +45,7 @@ const AppProvider = ({ children }) => {
 
   const fetchUser = async () => {
     try {
-      const { data } = await axios.get(`/api/v1/user/showCurrentUser`);
+      const { data } = await axios.get(showUser);
       saveUser(data.user);
       console.log("cookies in browser");
       console.log(data);

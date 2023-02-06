@@ -3,7 +3,6 @@ import axios from "axios";
 import { useGlobalContext } from "../context/context";
 import useLocalState from "../utils/localState";
 import { user_management } from "../utils/userAccessibility";
-import { useNavigate } from "react-router-dom";
 import {
   useTable,
   useSortBy,
@@ -12,32 +11,44 @@ import {
 } from "react-table";
 import { PencilSquareIcon } from "@heroicons/react/24/solid";
 import { GlobalFilter, AddUserModal, ModalWrapper } from "../components";
+import { useQuery, useMutation, useQueryClient } from "react-query";
+import { allUsers } from "../api/userManagement";
 
 function UserManagement() {
-  const [users, setUsers] = useState([]);
+  const [tableData, setTableData] = useState([]);
   const [show, setShow] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
   const { user, saveUser, toastNotification } = useGlobalContext();
-  const { loading, setLoading } = useLocalState();
-  const navigate = useNavigate();
+  // const { loading, setLoading } = useLocalState();
+
+  const {
+    data: users,
+    isError,
+    isLoading,
+    isSuccess,
+    error,
+  } = useQuery({ queryKey: ["users"], queryFn: allUsers });
 
   useEffect(() => {
-    fetchUsers();
-  }, []);
+    if (isSuccess) setTableData(users);
+  }, [users, isSuccess]);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const handleCloseEdit = () => setShowEdit(false);
+  const handleShowEdit = () => setShowEdit(true);
 
-  const fetchUsers = async () => {
-    try {
-      const { data } = await axios.get("/api/v1/user/allusers");
-      console.log(data);
-      setUsers(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const usersData = useMemo(() => [...tableData], [tableData]);
 
-  const usersData = useMemo(() => [...users], [users]);
+  // const fetchUsers = async () => {
+  //   try {
+  //     const { data } = await axios.get("/api/v1/user/allusers");
+  //     console.log(data);
+  //     setUsers(data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   // const usersColumns = useMemo(()=>users[0] ? Object.keys(users[0]).filter((key)=> key !==))
   const usersColumns = useMemo(
@@ -83,7 +94,7 @@ function UserManagement() {
         Cell: ({ row }) => (
           <PencilSquareIcon
             className="h-6 w-6 cursor-pointer"
-            onClick={() => alert(`Editing ${row.values.Role}`)}
+            onClick={handleShowEdit}
           >
             Edit
           </PencilSquareIcon>
@@ -116,6 +127,7 @@ function UserManagement() {
     useSortBy,
     usePagination
   );
+
   const { pageIndex, pageSize } = state;
 
   const isEven = (index) => index % 2 === 0;
@@ -243,8 +255,21 @@ function UserManagement() {
             Add New User
           </button>
         </div>
-        <ModalWrapper title={"Add User"} show={show} handleClose={handleClose}>
-          <AddUserModal handleClose={handleClose}/>
+        <ModalWrapper
+          title={"Add User"}
+          show={show}
+          handleClose={handleClose}
+          portalId="react-portal-modal-container-adduser"
+        >
+          <AddUserModal handleClose={handleClose} />
+        </ModalWrapper>
+        <ModalWrapper
+          title={"Edit User"}
+          show={showEdit}
+          handleClose={handleCloseEdit}
+          portalId="react-portal-modal-container-edituser"
+        >
+          <AddUserModal handleClose={handleClose} />
         </ModalWrapper>
       </div>
     </>

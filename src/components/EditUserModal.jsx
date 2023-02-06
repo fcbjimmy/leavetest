@@ -5,7 +5,6 @@ import { schema } from "../models/adduser";
 import { useGlobalContext } from "../context/context";
 import axios from "axios";
 import { adduser } from "../utils/url";
-import { useQuery, useMutation, useQueryClient } from "react-query";
 
 const department = ["IT", "Human Resources", "Business"];
 const role = ["User", "HR", "Admin", "Supervisor"];
@@ -24,7 +23,7 @@ const supervisors = [
   { UserId: "Hxavi6", Username: "Xavi" },
 ];
 
-const AddUserModal = ({ handleClose }) => {
+export const EditUserModal = ({ handleCloseEdit }) => {
   const { user } = useGlobalContext();
   const {
     register,
@@ -93,7 +92,7 @@ const AddUserModal = ({ handleClose }) => {
     console.log(formData);
     addNewUser(formData);
     reset();
-    handleClose();
+    handleCloseEdit();
   };
 
   return (
@@ -313,7 +312,7 @@ const AddUserModal = ({ handleClose }) => {
             Confirm
           </button>
           <button
-            onClick={handleClose}
+            onClick={handleCloseEdit}
             type="button"
             className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
           >
@@ -325,4 +324,4 @@ const AddUserModal = ({ handleClose }) => {
   );
 };
 
-export default AddUserModal;
+export default EditUserModal;

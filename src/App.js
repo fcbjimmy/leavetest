@@ -7,6 +7,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useGlobalContext } from "./context/context";
 import useLocalState from "./utils/localState";
+import { TestTable } from "./pages/TestTable";
 
 function App() {
   const { user, logoutUser, isLoading } = useGlobalContext();
@@ -27,6 +28,7 @@ function App() {
         <Route element={<PrivateRoutes />}>
           <Route path="/home" element={<Home />} />
           <Route path="/users/management" element={<UserManagement />} />
+          <Route path="/leave/type/management" element={<TestTable />} />
         </Route>
         <Route path="*" element={<Error />} />
       </Routes>

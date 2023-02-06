@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { CSSTransition } from "react-transition-group";
 import ReactPortal from "../ReactPortal";
 
-function ModalWrapper({ title, children, show, handleClose }) {
+function ModalWrapper({ title, children, show, handleClose, portalId }) {
   //add portalId to props
   useEffect(() => {
     const closeOnEscapeKey = (e) => (e.key === "Escape" ? handleClose() : null);
@@ -14,7 +14,7 @@ function ModalWrapper({ title, children, show, handleClose }) {
   const nodeRef = useRef(null);
 
   return (
-    <ReactPortal wrapperId="react-portal-modal-container">
+    <ReactPortal wrapperId={portalId}>
       <CSSTransition
         in={show}
         timeout={{ entry: 100, exit: 300 }}

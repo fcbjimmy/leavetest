@@ -7,7 +7,7 @@ import { useGlobalContext } from "../context/context";
 import useLocalState from "../utils/localState";
 import axios from "axios";
 import { toast } from "react-toastify";
-
+import { login } from "../utils/url";
 const Login = () => {
   //https://tailwind-elements.com/docs/standard/components/login-form/
   const {
@@ -26,7 +26,7 @@ const Login = () => {
     const { userId, password } = data;
     const loginUser = { userId, password };
     try {
-      const { data } = await axios.post(`/api/v1/auth/login`, loginUser);
+      const { data } = await axios.post(login, loginUser);
       console.log(data);
       reset();
       showAlert({
